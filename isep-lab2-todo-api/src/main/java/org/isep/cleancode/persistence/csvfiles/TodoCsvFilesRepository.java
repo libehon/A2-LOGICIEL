@@ -5,7 +5,6 @@ import org.isep.cleancode.application.ITodoRepository;
 
 import java.io.*;
 import java.nio.file.*;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,7 +30,7 @@ public class TodoCsvFilesRepository implements ITodoRepository {
     @Override
     public void add(Todo todo) {
         try (BufferedWriter writer = Files.newBufferedWriter(csvPath, StandardOpenOption.APPEND)) {
-            writer.write(todo.getName() + "," + (todo.getDateEcheance() != null ? todo.getDateEcheance() : ""));
+            writer.write(todo.getName() + "," + (todo.getDueDate() != null ? todo.getDueDate() : ""));
             writer.newLine();
         } catch (IOException e) {
             throw new RuntimeException("Erreur d'écriture dans le fichier CSV", e);
@@ -47,7 +46,7 @@ public class TodoCsvFilesRepository implements ITodoRepository {
                 String[] champs = line.split(",", -1);
                 Todo todo = new Todo(champs[0]);
                 if (champs.length > 1 && !champs[1].isBlank()) {
-                    todo.setDateEcheance(champs[1]);
+                    todo.setDueDate(champs[1]);
                 }
                 todos.add(todo);
             }

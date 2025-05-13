@@ -1,20 +1,18 @@
 package org.isep.cleancode;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeParseException;
-
 public class Todo {
 
     private String name;
-
-    // Nouveau champ : date d'échéance (facultative)
-    private LocalDate dateEcheance;
+    private String dueDate; // On utilise String pour simplifier la désérialisation JSON
 
     public Todo(String name) {
         this.name = name;
     }
 
-    // Getter/Setter existants
+    // Constructeur sans argument (important pour Gson)
+    public Todo() {}
+
+    // Getters et Setters
     public String getName() {
         return name;
     }
@@ -23,22 +21,12 @@ public class Todo {
         this.name = name;
     }
 
-    // Nouveau getter/setter
-    public LocalDate getDateEcheance() {
-        return dateEcheance;
+    public String getDueDate() {
+        return dueDate;
     }
 
-    public void setDateEcheance(String dateEcheanceStr) {
-        if (dateEcheanceStr == null || dateEcheanceStr.isBlank()) {
-            this.dateEcheance = null;
-            return;
-        }
-
-        try {
-            this.dateEcheance = LocalDate.parse(dateEcheanceStr);
-        } catch (DateTimeParseException e) {
-            throw new IllegalArgumentException("Format de date invalide (attendu : AAAA-MM-JJ)");
-        }
+    public void setDueDate(String dueDate) {
+        this.dueDate = dueDate;
     }
 
     // Règles métier

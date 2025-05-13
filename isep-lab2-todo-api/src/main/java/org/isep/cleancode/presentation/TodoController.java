@@ -3,9 +3,7 @@ package org.isep.cleancode.presentation;
 import com.google.gson.Gson;
 import org.isep.cleancode.Todo;
 import org.isep.cleancode.application.TodoManager;
-import org.isep.cleancode.persistence.inmemory.TodoInMemoryRepository;
 import org.isep.cleancode.application.ITodoRepository;
-import org.isep.cleancode.persistence.csvfiles.TodoCsvFilesRepository;
 import spark.Request;
 import spark.Response;
 
@@ -25,9 +23,9 @@ public class TodoController {
 
     public Object createTodo(Request request, Response response) {
         try {
+            System.out.println("Requête reçue : " + request.body());
             Todo newTodo = gson.fromJson(request.body(), Todo.class);
-            String dueDate = request.queryParams("dueDate");
-            newTodo.setDateEcheance(dueDate);
+            System.out.println("Action effectuer : " + newTodo.getName() + " - " + newTodo.getDueDate());
 
             boolean success = todoManager.addTodo(newTodo);
 
@@ -37,6 +35,7 @@ public class TodoController {
             }
 
             response.status(201);
+            response.type("application/json");
             return gson.toJson(newTodo);
 
         } catch (Exception e) {

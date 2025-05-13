@@ -9,4 +9,3 @@ public interface ITodoRepository {
     List<Todo> getAll();
     boolean exists(String name);
 }
-
